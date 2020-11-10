@@ -1,4 +1,4 @@
-import createElement from './tool.js'
+import createElement from './tool'
 
 function createULElement(parent, num) {
   let ulEle = createElement("ul");
