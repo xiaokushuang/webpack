@@ -3,14 +3,17 @@ let path = require('path');
 let htmlWebpackPlugin = require('html-webpack-plugin');
 let {
   CleanWebpackPlugin
-} = require('clean-webpack-plugin')
+} = require('clean-webpack-plugin');
+const webpack = require('webpack');
 module.exports = {
   mode: "development", //开发模式（文件出现错误的话，指向具体文件）
   devtool: "cheap-module-eval-source-map", //代码中出现错误的时候，会具体显示错误信息
-  devServer: { //npm install webpack-dev-server -D 之后需要进行的配置，在package.json中配置了’start‘
+  devServer: { //这个是webpack 建立的服务,npm install webpack-dev-server -D 之后需要进行的配置，在package.json中配置了’start‘
     contentBase: "./dist",
     port: 8080,
     open: true,
+    hot: true, //热更新（页面不强制刷新，只是页面的内容相应改变）
+    hotOnly: true,
   },
   // mode: "production", //生产模式（文件出现错误的话，指向打包文件）
   // entry: './src/index.js', //入口文件(单文件)
@@ -76,6 +79,8 @@ module.exports = {
       template: "./public/index.html"
     }),
     //需要下载插件，作用是每次打包之后删除在dist 文件夹之前的打包文件
-    new CleanWebpackPlugin()
+    new CleanWebpackPlugin(),
+    //热模块更新技术,修改内容页面不强制刷新
+    new webpack.HotModuleReplacementPlugin()
   ]
 }
