@@ -6,12 +6,22 @@ let {
 } = require('clean-webpack-plugin')
 module.exports = {
   mode: "development", //开发模式（文件出现错误的话，指向具体文件）
+  devtool: "cheap-module-eval-source-map", //代码中出现错误的时候，会具体显示错误信息
+  devServer: { //npm install webpack-dev-server -D 之后需要进行的配置，在package.json中配置了’start‘
+    contentBase: "./dist",
+    port: 8080,
+    open: true,
+  },
   // mode: "production", //生产模式（文件出现错误的话，指向打包文件）
-  entry: './src/index.js', //入口文件
+  // entry: './src/index.js', //入口文件(单文件)
+  entry: { //多文件入口，会在index.html 中引入这两个js 文件
+    bundle: "./src/index.js",
+    index: './src/main.js'
+  },
   output: {
-    filename: "bundle.js",
+    // filename: "bundle.js",//单文件入口需要这样写，如果是多文件入口，这个就不需要写了
     path: path.resolve(__dirname, "./dist"),
-    publicPath: './'
+    // publicPath: './' //打包之后的index.html 中引入的js 路径前面加上这个链接(cdn 缓存)
   },
   module: {
     rules: [{
